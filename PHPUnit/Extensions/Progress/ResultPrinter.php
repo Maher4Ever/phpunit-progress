@@ -408,9 +408,10 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
 
     $this->lastTestFailed = FALSE;
 
-    if ($test instanceof PHPUnit_Framework_TestCase) {
+    if ($this->verbose && $test instanceof PHPUnit_Framework_TestCase) {
       $this->write($test->getActualOutput());
     }
+
   }
 
   /**
