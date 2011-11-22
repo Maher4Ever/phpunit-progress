@@ -41,4 +41,4 @@ Here is how the results of this extention look using the progress printer:
 ![Progress printer results in the terminal][shot]
 
 [docs]:http://www.phpunit.de/manual/current/en/index.html
-[shot]:screenshot.png
+[shot]:https://github.com/Maher4Ever/phpunit-progress/raw/master/screenshot.png
