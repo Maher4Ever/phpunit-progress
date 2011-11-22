@@ -18,15 +18,14 @@ PHPUnit_TextUI_Command::main();
 
 Failures:
 
-  1) NumberTest::testThatMyMathTeacherSucked
-[31m     Failed asserting that 10 is identical to 1.
-[0m[36m     # %s:%i
+  1) NumberTest::testThatMyMathTeacherSucked[31m
+     Failed asserting that 10 is identical to 1.[0m[36m
+     # %s:%i
      # %s:%i[0m
 
-
-  2) NumberTest::testThatMyMathTeacherSuckedEvenMore
-[31m     Failed asserting that 'I don't know!' is identical to -1.
-[0m[36m     # %s:%i
+  2) NumberTest::testThatMyMathTeacherSuckedEvenMore[31m
+     Failed asserting that 'I don't know!' is identical to -1.[0m[36m
+     # %s:%i
      # %s:%i[0m
 
 Finished in %i second%S

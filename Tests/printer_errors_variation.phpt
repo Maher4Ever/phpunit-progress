@@ -18,9 +18,9 @@ PHPUnit_TextUI_Command::main();
 
 Errors:
 
-  1) NumberTest::testMathStillWorks
-[31m     NumberException: Division by zero!
-[0m[36m     # %s:%i
+  1) NumberTest::testMathStillWorks[31m
+     NumberException: Division by zero![0m[36m
+     # %s:%i
      # %s:%i
      # %s:%i[0m
 

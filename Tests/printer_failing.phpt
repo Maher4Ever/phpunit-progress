@@ -22,7 +22,6 @@ Failures:
      # %s:%i
      # %s:%i
 
-
   2) NumberTest::testThatMyMathTeacherSuckedEvenMore
      Failed asserting that 'I don't know!' is identical to -1.
      # %s:%i

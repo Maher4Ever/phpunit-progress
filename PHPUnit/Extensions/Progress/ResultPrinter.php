@@ -39,7 +39,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
    */
   public function printResult(PHPUnit_Framework_TestResult $result)
   {
-    print "\n\n";
+    print "\n";
 
     if ($result->errorCount() > 0) {
       $this->printErrors($result);
@@ -83,7 +83,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
       return;
     }
 
-    $this->write($type . ":\n");
+    $this->write("\n" . $type . ":\n");
 
     $i = 1;
     $failOrError = $type == 'Failures' || $type == 'Errors';
@@ -129,7 +129,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
     if ( $failOrError ) {
       $this->write(
         sprintf(
-          "\n  %d) %s\n",
+          "\n  %d) %s",
 
           $count,
           $testName
@@ -137,7 +137,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
       );
     } else {
       $this->write( 
-        sprintf( "  %s\n", $this->yellow($testName) )
+        sprintf( "  %s", $this->yellow($testName) )
       ); 
     }
   }
@@ -154,7 +154,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
 
     if ( !empty($error) ) {
       $error = explode("\n", $error);
-      $error = $padding . implode("\n  " . $padding , $error) . "\n";
+      $error = "\n" . $padding . implode("\n  " . $padding , $error);
 
       $this->write( $failOrError ? $this->red($error) : $this->cyan($error) );
     }
@@ -174,9 +174,9 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
 
     if ( ! empty($trace) ) {
       $trace = explode("\n", $trace);
-      $trace = $padding . '# ' . implode("\n${padding}# ", $trace);
+      $trace = "\n" . $padding . '# ' . implode("\n${padding}# ", $trace);
 
-      $this->write($this->cyan($trace) . "\n");
+      $this->write($this->cyan($trace));
     }
   }
 
@@ -235,7 +235,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
   protected function printFooter(PHPUnit_Framework_TestResult $result)
   {
 
-    $this->write( sprintf("Finished in %s\n", PHP_Timer::timeSinceStartOfRequest()) );
+    $this->write( sprintf("\nFinished in %s\n", PHP_Timer::timeSinceStartOfRequest()) );
 
     $resultsCount = count($result);
 
