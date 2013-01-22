@@ -230,6 +230,26 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
   }
 
   /**
+   * backwards/forwards compatibility hack for naming fix from phpunit 3.7.11
+   * @see https://github.com/sebastianbergmann/phpunit/issues/762
+   *
+   * superfluously extracted for testing purposes
+   *
+   * @param string $phpunitVersion The PHPUnit version
+   * @param bool $flush Whether to clear the static variable (needed for testing?)
+   * @return string
+   */
+  private function deriveAllCompletelyImplementedMethodName($phpunitVersion = '', $flush = false) {
+    static $methodName = null;
+    if ($methodName === null || $flush) {
+      $methodName = (version_compare($phpunitVersion, '3.7.11') === -1
+        ? 'allCompletlyImplemented'
+        : 'allCompletelyImplemented');
+    }
+    return $methodName;
+  }
+
+  /**
    * @param  PHPUnit_Framework_TestResult  $result
    */
   protected function printFooter(PHPUnit_Framework_TestResult $result)
@@ -246,12 +266,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
       $this->numAssertions == 1 ? '' : 's' 
     );
 
-    // backwards/forwards compatibility hack for naming fix from phpunit 3.7.11
-    // @see https://github.com/sebastianbergmann/phpunit/issues/762
-    $allCompletelyImplemented = (version_compare(PHPUnit_Runner_Version::VERSION, '3.7.11') === -1
-        ? 'allCompletlyImplemented'
-        : 'allCompletelyImplemented');
-
+    $allCompletelyImplemented = $this->deriveAllCompletelyImplementedMethodName(PHPUnit_Runner_Version::VERSION);
     if ( $result->wasSuccessful() &&
       $result->{$allCompletelyImplemented}() &&
       $result->noneSkipped() )
