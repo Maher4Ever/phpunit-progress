@@ -247,7 +247,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
     );
 
     if ( $result->wasSuccessful() &&
-      $result->allCompletlyImplemented() &&
+	  $result->allCompletelyImplemented() &&
       $result->noneSkipped() )
     {
       $this->write($this->green($footer));
