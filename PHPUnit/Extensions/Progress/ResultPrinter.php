@@ -21,7 +21,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
    * @param  boolean $colors
    * @param  boolean $debug
    */
-  public function __construct($out = NULL, $verbose = FALSE, $colors = FALSE, $debug = FALSE) {
+  public function __construct($out = NULL, $verbose = false, $colors = false, $debug = false) {
 
     // Start capturing output
     ob_start();
@@ -230,6 +230,27 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
   }
 
   /**
+   * backwards/forwards compatibility hack for naming fix from phpunit 3.7.11
+   * @see https://github.com/sebastianbergmann/phpunit/issues/762
+   *
+   * superfluously extracted for testing purposes
+   *
+   * @param PHPUnit_Framework_TestResult $result
+   * @param bool $flush Whether to clear the static variable (needed for testing?)
+   *
+   * @return string
+   */
+  private function deriveAllCompletelyImplementedMethodName(PHPUnit_Framework_TestResult $result, $flush = false) {
+    static $methodName = null;
+    if ($methodName === null || $flush) {
+      $methodName = (method_exists($result, 'allCompletlyImplemented')
+        ? 'allCompletlyImplemented'
+        : 'allCompletelyImplemented');
+    }
+    return $methodName;
+  }
+
+  /**
    * @param  PHPUnit_Framework_TestResult  $result
    */
   protected function printFooter(PHPUnit_Framework_TestResult $result)
@@ -246,14 +267,15 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
       $this->numAssertions == 1 ? '' : 's' 
     );
 
+    $allCompletelyImplemented = $this->deriveAllCompletelyImplementedMethodName($result);
     if ( $result->wasSuccessful() &&
-      $result->allCompletlyImplemented() &&
+      $result->{$allCompletelyImplemented}() &&
       $result->noneSkipped() )
     {
       $this->write($this->green($footer));
     }
 
-    else if ( ( !$result->allCompletlyImplemented() || !$result->noneSkipped() ) 
+    else if ( ( !$result->{$allCompletelyImplemented}() || !$result->noneSkipped() )
       &&
       $result->wasSuccessful() ) 
     {
@@ -343,7 +365,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
   public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
   {
     $this->writeProgress($this->red('E'));
-    $this->lastTestFailed = TRUE;
+    $this->lastTestFailed = true;
   }
 
   /**
@@ -356,7 +378,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
   public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
   {
     $this->writeProgress($this->red('F'));
-    $this->lastTestFailed = TRUE;
+    $this->lastTestFailed = true;
   }
 
   /**
@@ -369,7 +391,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
   public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
   {
     $this->writeProgress($this->yellow('I'));
-    $this->lastTestFailed = TRUE;
+    $this->lastTestFailed = true;
   }
 
   /**
@@ -383,7 +405,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
   public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
   {
     $this->writeProgress($this->yellow('S'));
-    $this->lastTestFailed = TRUE;
+    $this->lastTestFailed = true;
   }
 
   /**
@@ -406,7 +428,7 @@ class PHPUnit_Extensions_Progress_ResultPrinter extends PHPUnit_TextUI_ResultPri
       $this->numAssertions++;
     }
 
-    $this->lastTestFailed = FALSE;
+    $this->lastTestFailed = false;
 
     if ($this->verbose && $test instanceof PHPUnit_Framework_TestCase) {
       $this->write($test->getActualOutput());
